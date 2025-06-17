@@ -1,5 +1,6 @@
 package com.blitzoffline.stringexpansion;
 
+import org.bukkit.ChatColor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -239,6 +240,56 @@ public class StringExpansion extends PlaceholderExpansion implements Configurabl
                 }
 
                 return String.valueOf(StringUtils.countOccurrences(split[1], split[2]));
+            case "stripcolor":
+            return ChatColor.stripColor(arguments);
+            case "ignorecolor":
+                split = arguments.split(separator, 2);
+                if (split.length < 2) {
+                    return null;
+                };
+                
+                int limit;
+                try {
+                    limit = Integer.parseInt(split[0]);
+                } catch (NumberFormatException e) {
+                    return null;
+                };
+                
+                String textToLimit = split[1];
+                String cleanedText = ChatColor.stripColor(textToLimit);
+    
+                if (cleanedText.length() <= limit) {
+                    return textToLimit; 
+                } else {
+                    StringBuilder result = new StringBuilder();
+                    int visibleCharsCount = 0;
+                    boolean inColorCode = false;
+    
+                    for (int i = 0; i < textToLimit.length(); i++) {
+                        char c = textToLimit.charAt(i);
+    
+                        if (c == ChatColor.COLOR_CHAR) {
+                            result.append(c);
+                            inColorCode = true;
+                            if (i + 1 < textToLimit.length()) {
+                                result.append(textToLimit.charAt(i + 1));
+                                i++;
+                            }
+                        } else if (inColorCode) {
+                            inColorCode = false;
+                            result.append(c);
+                            visibleCharsCount++;
+                        } else {
+                            result.append(c);
+                            visibleCharsCount++;
+                        }
+    
+                        if (visibleCharsCount >= limit) {
+                            break;
+                        }
+                    }
+                    return result.toString();
+                }
         }
 
         return null;
