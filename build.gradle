@@ -4,11 +4,11 @@ plugins {
 }
 
 group 'com.blossomstudio'
-version '1.0.7-bs' // Esto está bien, ya lo habías cambiado para diferenciarlo
+version '1.0.7-bs'
 
 repositories {
     mavenCentral()
-    maven { url = "https://repo.papermc.io/repository/maven-public/" } // Repositorio de PaperMC
+    maven { url = "https://repo.papermc.io/repository/maven-public/" }
     maven { url = "https://repo.helpch.at/releases/" }
 }
 
@@ -16,11 +16,7 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:24.1.0'
 
     compileOnly 'me.clip:placeholderapi:2.11.6'
-
-    // ¡¡¡CAMBIO CRÍTICO AQUÍ!!!
-    // API de Paper para Minecraft 1.20.1
-    compileOnly 'io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT'
-    // La línea anterior que tenías de 1.16.5 se ELIMINA.
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
 }
 
 compileJava.options.encoding = 'UTF-8'
